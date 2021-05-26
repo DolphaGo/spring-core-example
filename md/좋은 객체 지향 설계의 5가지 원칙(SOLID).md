@@ -61,11 +61,10 @@
 
     - > 문제점
         - 그런데 OCP에서 설명한 MemberService는 인터페이스에 의존하지만, 구현 클래스도 동시에 의존하고 있다.
-
-            - ```java
-        MemberRepository memberRepository = new MemoryMemberRepository();
-        MemberRepository memberRepository = new JdbcMemberRepository();
-        ```
+        -  ```java
+            MemberRepository memberRepository = new MemoryMemberRepository();
+            MemberRepository memberRepository = new JdbcMemberRepository();
+            ```
 
         - MemberService 클라이언트가 구현 클래스를 직접 선택하고 있다.
 
