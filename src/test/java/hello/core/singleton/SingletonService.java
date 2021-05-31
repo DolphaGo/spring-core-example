@@ -12,4 +12,8 @@ public class SingletonService {
     private SingletonService() { // 외부에서 SingleTon 생성자를 호출할 수 없도록 new 키워드로 객체 인스턴스를 만들 수 없어야 함
 
     }
+
+    public void logic(){
+        //...
+    }
 }
