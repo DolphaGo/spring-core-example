@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 class StatefulServiceTest {
     @DisplayName("싱글톤 빈 관리 방식에서, stateful 설계의 문제점")
@@ -33,4 +32,5 @@ class StatefulServiceTest {
             return new StatefulService();
         }
     }
+
 }

@@ -128,7 +128,7 @@ beanDefinitionName = discountPolicy
 beanDefinition = Root bean: class [null]; scope=; abstract=false; lazyInit=null; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=appConfig; factoryMethodName=discountPolicy; initMethodName=null; destroyMethodName=(inferred); defined in hello.core.AppConfig
 ```
 
-참고로 ![img.png](../img/beanDefinition.png)
+참고로 ![img.png](img/beanDefinition.png)
 위와 같이 ApplicationContext로는 getBean을 할 수 없음. (추가적인 상속이 필요하다는 것)
 
 ---
