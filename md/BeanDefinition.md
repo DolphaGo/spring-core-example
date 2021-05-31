@@ -57,8 +57,8 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
     }
 
     public void register(Class<?>... componentClasses) {
-        Assert.notEmpty(componentClasses, "At least one component class must be specified");
-        StartupStep registerComponentClass = this.getApplicationStartup().start("spring.context.component-classes.register").tag("classes", () -> {
+        Assert.notEmpty(componentClasses, "At least one component.png class must be specified");
+        StartupStep registerComponentClass = this.getApplicationStartup().start("spring.context.component.png-classes.register").tag("classes", () -> {
             return Arrays.toString(componentClasses);
         });
         this.reader.register(componentClasses);
