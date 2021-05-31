@@ -1,13 +1,14 @@
 # 스프링은 어떻게 다양한 설정 형식을 지원하는 것일까?
+
 - `BeanDefinition` 덕분이다.
     - XML 읽어서 BeanDefinition 만들기
     - 자바 코드를 읽어서 BeanDefinition 만들기
     - 스프링 컨테이너는 자바 코드인지, XML인지 몰라도 됨. 오직 `BeanDefinition`만 알면 된다.
-    
+
 > BeanDefinition
+
 - 빈 설정 메타 정보
 - `@Bean`, `<bean>`
-
 
 ```java
 public class AnnotationConfigApplicationContext extends GenericApplicationContext implements AnnotationConfigRegistry {
@@ -57,8 +58,8 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
     }
 
     public void register(Class<?>... componentClasses) {
-        Assert.notEmpty(componentClasses, "At least one component.png class must be specified");
-        StartupStep registerComponentClass = this.getApplicationStartup().start("spring.context.component.png-classes.register").tag("classes", () -> {
+        Assert.notEmpty(componentClasses, "At least one component class must be specified");
+        StartupStep registerComponentClass = this.getApplicationStartup().start("spring.context.component-classes.register").tag("classes", () -> {
             return Arrays.toString(componentClasses);
         });
         this.reader.register(componentClasses);
@@ -81,22 +82,23 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 ```
 
 > BeanDefinition
+
 - `AnnotationConfigApplicationContext`는 `AnnotatedBeanDefinitionReader`를 사용해서 `AppConfig.class` 를 읽고 BeanDefinition 을 생성한다.
 - `GenericXmlApplicationContext`는 `XmlBeanDefinitionReader`를 사용해서 `appConfig.xml` 설정 정보를 읽고 BeanDefinition 을 생성한다.
 - 새로운 형식의 설정 정보가 추가되면, `XxxBeanDefinitionReader`를 만들어서 BeanDefinition 을 생성 하면 된다.
 
-- BeanClassName: 생성할 빈의 클래스 명(자바 설정 처럼 팩토리 역할의 빈을 사용하면 없음) 
-- factoryBeanName: 팩토리 역할의 빈을 사용할 경우 이름, 예) appConfig 
+- BeanClassName: 생성할 빈의 클래스 명(자바 설정 처럼 팩토리 역할의 빈을 사용하면 없음)
+- factoryBeanName: 팩토리 역할의 빈을 사용할 경우 이름, 예) appConfig
 - factoryMethodName: 빈을 생성할 팩토리 메서드 지정, 예) memberService
 - Scope: 싱글톤(기본값)
 - lazyInit: 스프링 컨테이너를 생성할 때 빈을 생성하는 것이 아니라, 실제 빈을 사용할 때 까지 최대한 생성을 지연처리 하는지 여부
-- InitMethodName: 빈을 생성하고, 의존관계를 적용한 뒤에 호출되는 초기화 메서드 명 
-- DestroyMethodName: 빈의 생명주기가 끝나서 제거하기 직전에 호출되는 메서드 명 
+- InitMethodName: 빈을 생성하고, 의존관계를 적용한 뒤에 호출되는 초기화 메서드 명
+- DestroyMethodName: 빈의 생명주기가 끝나서 제거하기 직전에 호출되는 메서드 명
 - Constructor arguments, Properties: 의존관계 주입에서 사용한다. (자바 설정 처럼 팩토리 역할 의 빈을 사용하면 없음)
 
 ````java
 public class BeanDefinitionTest {
-    AnnotationConfigApplicationContext ac =new AnnotationConfigApplicationContext(AppConfig.class);
+    AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
 
     @DisplayName("빈 설정 메타정보 확인")
     @Test
@@ -105,7 +107,7 @@ public class BeanDefinitionTest {
         for (String beanDefinitionName : beanDefinitionNames) {
             BeanDefinition beanDefinition = ac.getBeanDefinition(beanDefinitionName);
 
-            if(beanDefinition.getRole() == BeanDefinition.ROLE_APPLICATION){
+            if (beanDefinition.getRole() == BeanDefinition.ROLE_APPLICATION) {
                 System.out.println("beanDefinitionName = " + beanDefinitionName);
                 System.out.println("beanDefinition = " + beanDefinition);
             }
@@ -115,6 +117,7 @@ public class BeanDefinitionTest {
 ````
 
 위의 출력결과는 다음과 같다.
+
 ```
 beanDefinitionName = appConfig
 beanDefinition = Generic bean: class [hello.core.AppConfig$$EnhancerBySpringCGLIB$$b4655797]; scope=singleton; abstract=false; lazyInit=null; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null
@@ -134,9 +137,10 @@ beanDefinition = Root bean: class [null]; scope=; abstract=false; lazyInit=null;
 ---
 
 XML Config 확인
+
 ```java
 public class BeanDefinitionTest {
-    GenericXmlApplicationContext ac =new GenericXmlApplicationContext("appConfig.xml");
+    GenericXmlApplicationContext ac = new GenericXmlApplicationContext("appConfig.xml");
 
     @DisplayName("빈 설정 메타정보 확인")
     @Test
@@ -145,7 +149,7 @@ public class BeanDefinitionTest {
         for (String beanDefinitionName : beanDefinitionNames) {
             BeanDefinition beanDefinition = ac.getBeanDefinition(beanDefinitionName);
 
-            if(beanDefinition.getRole() == BeanDefinition.ROLE_APPLICATION){
+            if (beanDefinition.getRole() == BeanDefinition.ROLE_APPLICATION) {
                 System.out.println("beanDefinitionName = " + beanDefinitionName);
                 System.out.println("beanDefinition = " + beanDefinition);
             }
@@ -153,8 +157,10 @@ public class BeanDefinitionTest {
     }
 }
 ```
+
 결과
-```java
+
+```
 beanDefinitionName = memberService
 beanDefinition = Generic bean: class [hello.core.member.MemberServiceImpl]; scope=; abstract=false; lazyInit=false; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null; defined in class path resource [appConfig.xml]
 beanDefinitionName = memberRepository
@@ -166,8 +172,9 @@ beanDefinition = Generic bean: class [hello.core.discount.RateDiscountPolicy]; s
 ```
 
 결과가 조금 다르다. AppConfig는 어디갔는가?
-`AppConfig.java`는 팩토리 메서드로 등록한 것. 
+`AppConfig.java`는 팩토리 메서드로 등록한 것.
 `AppConfig.xml`은 직접 빈을 등록한 것
+
 - AnnotationConfig는 팩토리 메서드 방식, AppConfig는 직접 등록
 - 일반적으로 자바 코드로 빈설정을 하기 때문에 팩토리 빈 방식으로 빈을 등록한다는 것을 알고 넘어가자
 
