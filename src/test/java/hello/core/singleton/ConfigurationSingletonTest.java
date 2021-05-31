@@ -31,4 +31,11 @@ public class ConfigurationSingletonTest {
         MemberRepository memberRepository = ac.getBean("memberRepository", MemberRepository.class); // 스프링 컨테이너에 등록된 진짜 Bean
         assertThat(memberRepository1).isSameAs(memberRepository); // 같다!!
     }
+
+    @Test
+    void configurationDeep() {
+        ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class); // AppConfig 자체도 빈으로 등록이 됩니다.
+        AppConfig bean = ac.getBean(AppConfig.class);
+        System.out.println("bean.getClass() = " + bean.getClass()); // bean.getClass() = class hello.core.AppConfig$$EnhancerBySpringCGLIB$$fd1df726
+    }
 }
