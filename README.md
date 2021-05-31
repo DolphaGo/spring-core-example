@@ -11,3 +11,4 @@
 - [스프링컨테이너](md/스프링컨테이너.md)
 - [웹 애플리케이션과 싱글톤](md/웹애플리케이션과싱글톤.md)
 - [싱글톤 컨테이너](md/싱글톤컨테이너.md)
+- [Configuration](md/Configuration.md)
