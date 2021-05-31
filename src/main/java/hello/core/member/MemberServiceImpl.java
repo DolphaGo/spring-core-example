@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 // 구현체가 1개만 있을 때는 관례상 인터페이스+`Impl` 이라고 이름을 많이 짓곤한다.
-@Component("DolphaGoMemberService")
+@Component
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
