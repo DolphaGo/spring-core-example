@@ -6,8 +6,10 @@ import org.springframework.stereotype.Component;
 import hello.core.discount.DiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
+import lombok.RequiredArgsConstructor;
 
 @Component
+@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
     /**
@@ -37,11 +39,11 @@ public class OrderServiceImpl implements OrderService {
     private final MemberRepository memberRepository;
     private final DiscountPolicy discountPolicy;
 
-    // 클래스 내 단 1개의 생성자만 존재한다면 @Autowired는 생략해도 된다.
-    public OrderServiceImpl(final MemberRepository memberRepository, final DiscountPolicy discountPolicy) {
-        this.memberRepository = memberRepository;
-        this.discountPolicy = discountPolicy;
-    }
+//    // 클래스 내 단 1개의 생성자만 존재한다면 @Autowired는 생략해도 된다.
+//    public OrderServiceImpl(final MemberRepository memberRepository, final DiscountPolicy discountPolicy) {
+//        this.memberRepository = memberRepository;
+//        this.discountPolicy = discountPolicy;
+//    }
 
     /**
      * 일반 메서드 주입
