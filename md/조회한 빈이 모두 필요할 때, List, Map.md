@@ -40,5 +40,32 @@ public class AllBeanTest {
 ```
 
 - Map<String, DiscountPolicy> : map의 키에 스프링 빈의 이름을 넣어주고, 그 값으로 DiscountPolicy 타입으로 조회한 모든 스프링 빈을 담아준다.
-- List<DiscountPolicy> : DiscountPolicy 타입으로 조회한 모든 스프링 빈을 담아준다. 
+- List<DiscountPolicy> : DiscountPolicy 타입으로 조회한 모든 스프링 빈을 담아준다.
 - 만약 해당하는 타입의 스프링 빈이 없으면, 빈 컬렉션이나 Map을 주입한다.
+
+---
+
+**애플리케이션에 광범위하게 영향을 미치는 기술 지원 객체는 수동 빈으로 등록해서 딱 설정 정보에 바로 나타나게 하는 것이 유지보수에 좋다.**
+
+- 다형성을 적극 활용할 때 수동 등록으로 한 곳에 모아서 설정 정보에서 관리하는 것이 좋을 *수도* 있음
+
+```java
+@Configuration
+public class DiscountPolicyConfig {
+    @Bean
+    public DiscountPolicy rateDiscountPolicy() {
+        return new RateDiscountPolicy();
+    }
+
+    @Bean
+    public DiscountPolicy fixDiscountPolicy() {
+        return new FixDiscountPolicy();
+    }
+}
+```
+- 사실 답은 없음 ㅎㅎ, 핵심은 딱 보고 확실하게 이해가 되냐가 중요한 것
+
+> 정리
+- 편리한 자동 기능을 기본으로 사용하자
+- 직접 등록하는 기술 지원 객체는 수동 등록
+- 다형성을 적극 활용하는 비즈니스 로직은 수동 등록을 고민해보자
