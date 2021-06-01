@@ -10,9 +10,9 @@ import hello.core.member.MemberRepository;
 @Component
 public class OrderServiceImpl implements OrderService {
 
-//    /**
-//     * 필드 주입
-//     */
+    /**
+     * 필드 주입
+     */
 //    @Autowired private MemberRepository memberRepository;
 //    @Autowired private DiscountPolicy discountPolicy;
 
@@ -43,9 +43,9 @@ public class OrderServiceImpl implements OrderService {
         this.discountPolicy = discountPolicy;
     }
 
-//    /**
-//     * 일반 메서드 주입
-//     */
+    /**
+     * 일반 메서드 주입
+     */
 //    private MemberRepository memberRepository;
 //    private DiscountPolicy discountPolicy;
 //
