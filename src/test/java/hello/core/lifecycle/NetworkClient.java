@@ -3,6 +3,9 @@ package hello.core.lifecycle;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 public class NetworkClient {
 
     private String url;

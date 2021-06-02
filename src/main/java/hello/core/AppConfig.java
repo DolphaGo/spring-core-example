@@ -2,6 +2,7 @@ package hello.core;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 
 import hello.core.discount.DiscountPolicy;
 import hello.core.discount.FixDiscountPolicy;
@@ -21,6 +22,7 @@ public class AppConfig { // 새로운 역할. 여기서 생성한 구현체는 �
         return new MemberServiceImpl(memberRepository()); // MemoryMemberRepository를 사용하고 싶을 때(구체적인 곳은 여기서 지정한다.)
     }
 
+    @Scope("prototype")
     @Bean
     public MemoryMemberRepository memberRepository() {
         System.out.println("AppConfig.memberRepository");
