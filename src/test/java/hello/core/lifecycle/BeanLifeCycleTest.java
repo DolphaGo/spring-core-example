@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 
 public class BeanLifeCycleTest {
 
-    @DisplayName("")
     @Test
     void lifeCycleTest() {
         final ConfigurableApplicationContext ac = new AnnotationConfigApplicationContext(LifeCycleConfig.class);
