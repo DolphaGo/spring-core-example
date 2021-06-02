@@ -2,6 +2,7 @@ package hello.core.web;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -13,16 +14,17 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class LogDemoController {
     private final LogDemoService logDemoService;
-    private final MyLogger myLogger; // 그냥 실행하면 현재 request 스콥인 상태에서는 MyLogger가 스콥이 아니라서(생존 범위가 아님) 스프링에서 DI를 원하지만 줄 것이 없음
-    // -> Provider로 해결
+    private final ObjectProvider<MyLogger> myLoggerProvider;
 
     @RequestMapping("log-demo")
     @ResponseBody // 화면이 없어서 뷰 렌더링 거치지 않고 바로 문자로 반환할 것
-    public String logDemo(HttpServletRequest request) {
+    public String logDemo(HttpServletRequest request) throws InterruptedException { // 즉, Request가 들어온 시점에 제공받으면 되기 때문이다.
+        final MyLogger myLogger = myLoggerProvider.getObject(); // 필요한 시점에 주입받을 수 있다.
         final String requestURL = request.getRequestURL().toString();
         myLogger.setRequestURL(requestURL);
 
         myLogger.log("controller test");
+        Thread.sleep(10000); //요청마다 로거를 할당해주는 것을 확인할 수 있다.
         logDemoService.logic("testId");
         return "OK";
     }

@@ -22,7 +22,7 @@ public class AppConfig { // 새로운 역할. 여기서 생성한 구현체는 �
         return new MemberServiceImpl(memberRepository()); // MemoryMemberRepository를 사용하고 싶을 때(구체적인 곳은 여기서 지정한다.)
     }
 
-    @Scope("prototype")
+//    @Scope("prototype")
     @Bean
     public MemoryMemberRepository memberRepository() {
         System.out.println("AppConfig.memberRepository");

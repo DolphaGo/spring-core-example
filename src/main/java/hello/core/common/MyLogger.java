@@ -25,12 +25,11 @@ public class MyLogger {
     @PostConstruct
     public void init() {
         uuid = UUID.randomUUID().toString(); // 로또 of 로또 of 로또의 확률로 겹치지 않음
-        System.out.println("[" + uuid + "][" + requestURL + "] request scope bean create: " + this);
-
+        System.out.println("[" + uuid + "] request scope bean create: " + this);
     }
 
     @PreDestroy
     public void close() {
-        System.out.println("[" + uuid + "][" + requestURL + "] request scope bean close: " + this);
+        System.out.println("[" + uuid + "] request scope bean close: " + this);
     }
 }
