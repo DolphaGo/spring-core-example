@@ -2,7 +2,6 @@ package hello.core.web;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,13 +13,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class LogDemoController {
     private final LogDemoService logDemoService;
-    private final ObjectProvider<MyLogger> myLoggerProvider;
+    private final MyLogger myLogger;
 
     @RequestMapping("log-demo")
     @ResponseBody // 화면이 없어서 뷰 렌더링 거치지 않고 바로 문자로 반환할 것
     public String logDemo(HttpServletRequest request) throws InterruptedException { // 즉, Request가 들어온 시점에 제공받으면 되기 때문이다.
-        final MyLogger myLogger = myLoggerProvider.getObject(); // 필요한 시점에 주입받을 수 있다.
         final String requestURL = request.getRequestURL().toString();
+        System.out.println("myLogger.getClass() = " + myLogger.getClass());
         myLogger.setRequestURL(requestURL);
 
         myLogger.log("controller test");
