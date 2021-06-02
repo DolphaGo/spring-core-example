@@ -4,8 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.inject.Provider;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Scope;
 
@@ -32,39 +35,21 @@ public class SingletonWithPrototypeTest1 {
 
         final ClientBean clientBean2 = ac.getBean(ClientBean.class);
         final int count2 = clientBean2.logic();
-        assertThat(count2).isEqualTo(2); // 프로토타입이 새로 생성되는 것이 아님~!
+        assertThat(count2).isEqualTo(1); // 프로토타입이 새로 생성되는 것이 아님~!
     }
 
     // 프로토 타입을 쓸 때는, 새로 만드는 것을 원했을 텐데, 의도한 대로 동작하지는 않음
     @Scope("singleton")
     static class ClientBean {
-        private final PrototypeBean prototypeBean; // 생성 시점에 주입이 되어있다. <- prototype 0x1
-
-        public ClientBean(final PrototypeBean prototypeBean) {
-            this.prototypeBean = prototypeBean;
-        }
+        @Autowired
+        private Provider<PrototypeBean> prototypeBeanProvider;
 
         public int logic() {
+            final PrototypeBean prototypeBean = prototypeBeanProvider.get();
             prototypeBean.addCount();
             return prototypeBean.getCount();
         }
     }
-
-    // 프로토 타입을 쓸 때는, 새로 만드는 것을 원했을 텐데, 의도한 대로 동작하지는 않음
-    @Scope("singleton")
-    static class ClientBean2 {
-        private final PrototypeBean prototypeBean; // 생성 시점에 주입이 되어있다.<- prototype 0x2
-
-        public ClientBean2(final PrototypeBean prototypeBean) {
-            this.prototypeBean = prototypeBean;
-        }
-
-        public int logic() {
-            prototypeBean.addCount();
-            return prototypeBean.getCount();
-        }
-    }
-
 
     @Scope("prototype")
     static class PrototypeBean {
